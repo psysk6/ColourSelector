@@ -1,5 +1,22 @@
 import tkinter as tk
 import tkinter.ttk as ttk
+from pynput import *
+from PIL import ImageGrab
+
+
+def get_pixel_colour(i_x, i_y):
+    try:
+        out = ImageGrab.grab().load()[i_x, i_y]
+    except IndexError:
+        print("error wow that's a big number!")
+    else:
+        return out
+
+
+def on_click(x,y,button,pressed):
+    output = ("click at {0},{1},{2},{3}").format(x,y,button,pressed)
+    print(get_pixel_colour(x,y))
+    print(output)
 
 
 class NewprojectWidget(tk.Frame):
@@ -28,15 +45,13 @@ class NewprojectWidget(tk.Frame):
         frame_3 = tk.Frame(self)
         frame_3.config(background='#8680ff', height='70', width='70')
         frame_3.place(anchor='nw', x='70', y='5')
+        
 
-
-def task():
-    print("hello")
-    root.after(2000,task)
 
 if __name__ == '__main__':
     root = tk.Tk()
     widget = NewprojectWidget(root)
     widget.pack(expand=True, fill='both')
-    root.after(2000,task)
+    listener = mouse.Listener(on_click=on_click)
+    listener.start() # start thread
     root.mainloop()

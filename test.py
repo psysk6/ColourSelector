@@ -11,6 +11,7 @@ def get_pixel_colour(i_x, i_y):
 
 def on_move(x,y):
     pass
+
 def on_click(x,y,button,pressed):
     output = ("click at {0},{1},{2},{3}").format(x,y,button,pressed)
     print(get_pixel_colour(x,y))
