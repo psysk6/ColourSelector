@@ -1,20 +1,21 @@
 import tkinter as tk
 import tkinter.ttk as ttk
-from clickHandler import *
-from colourEval import *
-from pynput import *
-from apiuse import *
+from pynput import mouse
+from colour import *
 
 debugging = False
+
+
+
 
 #handle clicks
 def on_click(x,y,button,pressed):
     if debugging:
         output = ("click at {0},{1},{2},{3}").format(x,y,button,pressed)
-        print(get_pixel_colour(x,y))
+        print()
         print(output)
-    hexColour = convert_to_hex(get_pixel_colour(x,y),debugging)
-    widget.setColour(hexColour,get_pixel_colour(x,y))
+    myColour = colour(x,y)
+    widget.setColour(myColour)
 
 
 #setup the project
@@ -49,9 +50,6 @@ class Interface(tk.Frame):
         rgbLabel.config(text='RGB:')
         rgbLabel.place(anchor='nw', x='10', y='140')
 
-       
-
-
         hexLabel = tk.Label(self)
         hexLabel.config(text='Hex:')
         hexLabel.place(anchor='nw', x='10', y='110')
@@ -68,18 +66,17 @@ class Interface(tk.Frame):
     def fun(self):  
         print("doing a thing")
 
-    def setColour(self,hex,rgb):
-        self.frame_3.config(bg = hex) 
+    def setColour(self,colour):
+        self.frame_3.config(bg = colour.getRgb()) 
 
         self.hexText.delete(1.0,"end")
-        self.hexText.insert(1.0,hex)
+        self.hexText.insert(1.0,colour.getHex())
         
         self.rgbText.delete(1.0,"end")
-        self.rgbText.insert(1.0,rgb)
-        self.isSelecting = False
+        self.rgbText.insert(1.0,colour.getRgb())
         
         self.nameText.delete(1.0,"end")
-        self.nameText.insert(1.0,getNearestName(hex)) 
+        self.nameText.insert(1.0,colour.getName()) 
 
 
 if __name__ == '__main__':
@@ -89,5 +86,7 @@ if __name__ == '__main__':
     root.resizable(0,0)
     widget.pack(expand=True, fill='both')
     listener = mouse.Listener(on_click=on_click)
+    #initialise to a starting colour
+    widget.setColour(colour(0,0))
     listener.start() # start thread
     root.mainloop()
