@@ -3,28 +3,37 @@ import tkinter.ttk as ttk
 from pynput import mouse
 from colour import *
 
-debugging = False
+debugging = True
 
 
 
 
-#handle clicks
+#handle clicks cuz of pynput I couldn't put this in a class :/
 def on_click(x,y,button,pressed):
     if debugging:
         output = ("click at {0},{1},{2},{3}").format(x,y,button,pressed)
         print()
         print(output)
-    myColour = colour(x,y)
-    widget.setColour(myColour)
+    if(widget.getSelecting()):
+        print("selecting!")
+        myColour = colour(x,y)
+        widget.setColour(myColour)
+        widget.enableButton()
 
 
 #setup the project
 class Interface(tk.Frame):
     def __init__(self, master=None, **kw):
         tk.Frame.__init__(self, master, **kw)
-        ViewOnline = tk.Button(self)
-        ViewOnline.config(justify='left', takefocus=True,command = self.fun(), text='Select Colour')
-        ViewOnline.place(anchor='nw', x='60', y='170')
+       
+       
+       
+        self.button = tk.Button(self)
+        self.button.config(justify='left', takefocus=True,command = self.fun, text='Select Colour', state = 'normal')
+        self.button.place(anchor='nw', x='60', y='170')
+       
+       
+       
         self.rgbText = tk.Text(self)
         self.rgbText.config(height='1', insertunfocussed='none', setgrid='false', width='15')
         _text_ = '''hex'''
@@ -61,10 +70,26 @@ class Interface(tk.Frame):
         self.hexText.place(anchor='nw', x='50', y='110')
         self.frame_3 = tk.Frame(self)
         self.frame_3.config(background='#8680ff', height='70', width='70')
-        self.frame_3.place(anchor='nw', x='70', y='5')
+        self.frame_3.place(anchor='nw', x='70', y='5')  
+        self.isSelecting = False
        
     def fun(self):  
-        print("doing a thing")
+        if(debugging):
+            print("disabling button") 
+        self.button.config(state = "disabled")
+        self.isSelecting = True
+
+    def disableButton(self):
+        self.button.config(state = "disabled")
+        
+    def enableButton(self):
+        self.button.config(state = "normal")
+        self.isSelecting = False
+
+    def getSelecting(self):
+        return self.isSelecting
+
+        
 
     def setColour(self,colour):
         self.frame_3.config(bg = colour.getRgb()) 
