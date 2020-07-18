@@ -56,11 +56,11 @@ class Interface(tk.Frame):
 
 
         rgbLabel = tk.Label(self)
-        rgbLabel.config(text='RGB:')
+        rgbLabel.config(text='Hex:')
         rgbLabel.place(anchor='nw', x='10', y='140')
 
         hexLabel = tk.Label(self)
-        hexLabel.config(text='Hex:')
+        hexLabel.config(text='RGB:')
         hexLabel.place(anchor='nw', x='10', y='110')
         self.hexText = tk.Text(self)
         self.hexText.config(height='1', setgrid='false', width='15')
