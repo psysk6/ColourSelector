@@ -46,3 +46,24 @@ pyinstaller pyColour.py
 ```
 
 this will create a /dist directory which will contain an executable version of the application. inside the dist folder will be pyColour.exe
+
+## Known issues
+
+- Bug with Pillow (currently handled with an exception) unfortunately it will only grab the primary monitor therefore clicking on other monitors would cause a crash.
+
+## the future of this
+
+Must:
+
+- Icons (making it less tkinter)
+- Buttons to add straight to clipboard
+- Substute for pillow as it has an issue with grabbing multiple screens (this could be a project within itself)
+
+Should:
+
+- Some kind of automatic build process (again if I can be asked)
+
+Could:
+
+- Colour Pallets using an api (find appropriate colour palletes)
+- Saved colours pallette (does not have to be remote could just be local)
